@@ -45,8 +45,8 @@ class TodosTest {
     @Test
     void setTodos() {
         //Arrange
-        Todo todo1 = new Todo("Sauver l'univers", State.DONE);
-        Todo todo2 = new Todo("Appeler maman", State.IN_PROGRESS);
+        Todo todo1 = new Todo(2,"Sauver l'univers", State.DONE);
+        Todo todo2 = new Todo(3,"Appeler maman", State.IN_PROGRESS);
         ArrayList todoList = new ArrayList();
         todoList.add(todo1);
         todoList.add(todo2);
@@ -64,7 +64,7 @@ class TodosTest {
     @Test
     void add() {
         //Arrange
-        Todo todoToAdd = new Todo("Sauver l'univers", State.DONE);
+        Todo todoToAdd = new Todo(2, "Sauver l'univers", State.DONE);
         //Act
         todos.add(todoToAdd);
         ArrayList result = todos.getTodos();
@@ -91,6 +91,19 @@ class TodosTest {
         assertEquals(State.TODO, ((Todo) result.get(1)).getState());
         assertEquals("Sauver l'univers", ((Todo) result.get(2)).getTitle());
         assertEquals(State.TODO, ((Todo) result.get(2)).getState());
+    }
+
+    @Test
+    void updateState() {
+        //Act
+        todos.updateState("0",State.IN_PROGRESS.toString());
+        ArrayList result = todos.getTodos();
+        //Assert
+        assertEquals(2, result.size());
+        assertEquals("Nourrir le chat", ((Todo) result.get(0)).getTitle());
+        assertEquals(State.IN_PROGRESS, ((Todo) result.get(0)).getState());
+        assertEquals("Eteindre les lumières", ((Todo) result.get(1)).getTitle());
+        assertEquals(State.TODO, ((Todo) result.get(1)).getState());
     }
 
 }

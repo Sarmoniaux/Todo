@@ -11,4 +11,6 @@ public enum State {
         this.value = value;
     }
 
+
+
 }

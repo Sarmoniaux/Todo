@@ -3,12 +3,13 @@ package demo.todo.entity;
 import com.fasterxml.jackson.annotation.JsonView;
 import demo.todo.controller.State;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Todo {
-
+    @JsonView(JsonViews.Common.class)
+    @Id
+    private int id;
     @JsonView(JsonViews.Common.class)
     @Column(name = "title")
     private String title;
@@ -17,14 +18,20 @@ public class Todo {
     private State state;
 
 
-    public Todo(String title){
+    public Todo(int id, String title){
+        this.id = id;
         this.title = title;
         this.state = State.TODO;
     }
 
-    public Todo(String title, State state){
+    public Todo(int id, String title, State state){
+        this.id = id;
         this.title = title;
         this.state = state;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
