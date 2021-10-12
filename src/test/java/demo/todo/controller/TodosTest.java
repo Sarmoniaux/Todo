@@ -5,10 +5,13 @@ import com.sun.xml.bind.v2.TODO;
 import demo.todo.entity.Todo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -114,6 +117,17 @@ class TodosTest {
         assertEquals("Eteindre les lumières", result.getTitle());
         assertEquals(State.TODO, result.getState());
         assertEquals("C'est pas Versaille ici", result.getDescription());
+    }
+
+    @Test
+    void createTodo(){
+        Todo todo = new Todo(123,"test","test description");
+        ResponseEntity<Map<String, Object>> response =  todos.createTodo(todo);
+        Todo returnedTodo = todos.getTodo("2");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("test", returnedTodo.getTitle());
+        assertEquals(State.TODO, returnedTodo.getState());
+        assertEquals("test description", returnedTodo.getDescription());
     }
 
 }

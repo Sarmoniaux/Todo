@@ -23,6 +23,13 @@ public class Todo {
     private String description;
 
 
+    public Todo(){
+        this.id = -1;
+        this.title = "";
+        this.state = State.TODO;
+        this.description = "";
+    }
+
     public Todo(int id, String title){
         this.id = id;
         this.title = title;
@@ -49,6 +56,8 @@ public class Todo {
         this.state = State.TODO;
         this.description = description;
     }
+
+
 
     public int getId() {
         return id;

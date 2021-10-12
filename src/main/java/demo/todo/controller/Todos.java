@@ -3,9 +3,14 @@ package demo.todo.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import demo.todo.entity.JsonViews;
 import demo.todo.entity.Todo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/todos")
 @CrossOrigin(origins = "*")
@@ -32,6 +37,15 @@ public class Todos {
         Todo tempTodo = searchTodo(id);
         if(tempTodo != null) tempTodo.setState(State.valueOf(state));
         return tempTodo;
+    }
+
+    @PostMapping
+    public ResponseEntity<Map<String, Object>> createTodo(@RequestBody Todo todo) {
+        if(todo.getTitle() != null){
+            this.create(todo.getTitle(),todo.getDescription());
+            return (new ResponseEntity<>(new HashMap<>(), HttpStatus.OK));
+        }
+        return (new ResponseEntity<>(new HashMap<>(), HttpStatus.BAD_REQUEST));
     }
 
     private Todo searchTodo(String id){
