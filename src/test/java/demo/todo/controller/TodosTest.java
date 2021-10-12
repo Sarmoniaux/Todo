@@ -106,4 +106,14 @@ class TodosTest {
         assertEquals(State.TODO, ((Todo) result.get(1)).getState());
     }
 
+    @Test
+    void getTodo() {
+        //Act
+        Todo result = todos.getTodo("1");
+        //Assert
+        assertEquals("Eteindre les lumières", result.getTitle());
+        assertEquals(State.TODO, result.getState());
+        assertEquals("C'est pas Versaille ici", result.getDescription());
+    }
+
 }

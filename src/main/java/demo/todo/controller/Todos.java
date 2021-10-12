@@ -16,16 +16,28 @@ public class Todos {
     private ArrayList<Todo> todos = new ArrayList();
 
     @GetMapping({"","/"})
+    @JsonView(JsonViews.Common.class)
     public ArrayList todos(){
         return todos;
     }
 
+    @GetMapping({"/{id}"})
+    @JsonView(JsonViews.Unique.class)
+    public Todo getTodo(@PathVariable(value = "id") String id){
+        return searchTodo(id);
+    }
+
     @PutMapping({"/{id}/{state}"})
     public Todo updateState(@PathVariable(value = "id") String id,@PathVariable(value = "state") String state){
+        Todo tempTodo = searchTodo(id);
+        if(tempTodo != null) tempTodo.setState(State.valueOf(state));
+        return tempTodo;
+    }
+
+    private Todo searchTodo(String id){
         int idTodo = Integer.valueOf(id);
         for(int i = 0; todos.size() > i; i++){
             if(todos.get(i).getId() == idTodo){
-                todos.get(i).setState(State.valueOf(state));
                 return todos.get(i);
             }
         }
@@ -41,8 +53,8 @@ public class Todos {
     }
 
     public Todos(){
-        this.create("Nourrir le chat");
-        this.create("Eteindre les lumières");
+        this.create("Nourrir le chat", "Mettre des croquettes dans sa gamelle");
+        this.create("Eteindre les lumières", "C'est pas Versaille ici");
     }
 
     public void add(Todo todo){
@@ -51,6 +63,11 @@ public class Todos {
 
     public void create(String title){
         todos.add(new Todo(id,title));
+        id++;
+    }
+
+    public void create(String title, String description){
+        todos.add(new Todo(id,title, description));
         id++;
     }
 
